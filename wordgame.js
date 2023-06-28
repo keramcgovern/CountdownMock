@@ -85,6 +85,57 @@ function getPlayerWords() {
     }
 }
 
+var bigNums = [25,50,75];
+
+/**
+ * Creates an array of 6 numbers. The user picks the number of "big numbers" (25,50, or 75), the rest will be between 1 and 10
+ * @returns 
+ */
+function pickNumbers(){
+    let nums = [];
+    let numBig = 2; //TODO: get usr input
+    for(let i=0; i<numBig; i++){
+        nums.push(bigNums[Math.floor(Math.random()*bigNums.length)]);
+    }
+    for(let i=0; i<6-numBig; i++){
+        nums.push(Math.ceil(Math.random()*10));
+    }
+    return nums;
+}
+
+//from https://stackoverflow.com/a/12646864
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+/**
+ * Creates a target number from the chosen numbers using random operations
+ * @returns a random number that can be created from the list of numbers
+ */
+function generateAnswer(numbers){
+    shuffleArray(numbers);
+    let numOps = Math.ceil(Math.random()*5);
+    let res = 0;
+    for(let i=0; i<numOps; i++){
+        let num1 = numbers.pop();
+        let num2 = numbers.pop();
+        let retNum;
+        let operation = Math.floor(Math.random()*4);
+        switch(operation){
+            case 0: {retNum = num1+num2; break;}
+            case 1: {retNum = num1-num2; break;}
+            case 2: {retNum = num1*num2; break;}
+            case 3: {retNum = num1/num2; break;}
+        }
+        numbers.push(retNum);
+        res = retNum;
+    }
+    return res;
+}
+
 /**
  * Finds the player(s) with the longest valid word based.
  * 
