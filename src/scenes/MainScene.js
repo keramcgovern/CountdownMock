@@ -20,7 +20,7 @@ export default class MainScene extends Phaser.Scene {
 			minimum_wage: 1, //wages for a given job can never go below this
 
 			//things useful for debugging
-			show_hitboxes: true, //debugging tool shows all hitboxes on locations
+			show_hitboxes: false, //debugging tool shows all hitboxes on locations
 			show_welcome: true, //turns on/off welcome messages at locations
 			open_start_location: true, //if true, the starting location will automatically be shown
 			movement_speed: 1, //multiplier for the movement speed of the dot. e.g. change to 2 or 3 or 10 to speed it up.
@@ -56,6 +56,10 @@ export default class MainScene extends Phaser.Scene {
 			current_player: 0, //current player 
 			players: [], //holds player info
 			version: this.settings.version, //version of game engine
+			timed: false, //eventually can be added, actual game only gives 30 seconds
+			secondsPerGame: 30,
+			numberOfLetters: 9, //number of letters for the players to use
+			letterList: [],
 		}
 		this.new_gamestate = { ...this.gamestate }; //save for restarting
 	}
@@ -185,7 +189,7 @@ export default class MainScene extends Phaser.Scene {
 	}
 
 	pullLetter(val) {
-		console.log(val);
+		require('./lib/update_letter.js')(this, val);
 	}
 
 	//code that tells the game the player has set a new destination

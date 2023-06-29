@@ -84,8 +84,8 @@ module.exports = function (scene, id, take_time = true, location_object) {
 		for (var i in items) {
 			var item = items[i];
 			if (typeof item.display == "undefined") item.display = true;
-			if (typeof item.y != "undefined") item_y += item.y;
-			if (typeof item.x != "undefined") item_x = item.x;
+			if (typeof item.y != "undefined") item_y = item.y;
+			if (typeof item.x != "undefined") item_x += item.x;
 			item._item_y = item_y;
 			item._item_x = item_x;
 			var show_item = true;

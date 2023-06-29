@@ -1,6 +1,1 @@
-[
-    "board",
-    "btn-done",
-    "btn-consonant",
-    "btn-vowel"
-]
+["board","btn-consonant","btn-done","btn-vowel"]
