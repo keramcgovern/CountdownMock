@@ -89,5 +89,7 @@
 
 var path = "./locations/";
 module.exports = [
-	require(path + 'lexGame.js')
+	require(path + 'lexGame.js'),
+	require(path + 'createPlayer.js'),
+	require(path + 'menu.js'),
 ]

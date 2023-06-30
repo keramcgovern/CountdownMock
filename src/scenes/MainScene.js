@@ -12,18 +12,14 @@ export default class MainScene extends Phaser.Scene {
 
 	//init runs first -- for very basic stuff
 	init() {
-		console.log('MainScene');
 		//some basic settings -- not every variable is represented here,
 		//but these are ones that feel like they ought to be tweakable
 		this.settings = {
 			speech_display: 3000, //how long a speech bubble is displayed before automatically closing itself -- set to 'false' to never have it triggered
-			minimum_wage: 1, //wages for a given job can never go below this
 
 			//things useful for debugging
 			show_hitboxes: false, //debugging tool shows all hitboxes on locations
-			show_welcome: true, //turns on/off welcome messages at locations
 			open_start_location: true, //if true, the starting location will automatically be shown
-			movement_speed: 1, //multiplier for the movement speed of the dot. e.g. change to 2 or 3 or 10 to speed it up.
 			auto_restore: false, //if true, instead of starting with a new game, it will automatically restore the saved game -- for debugging only!!!
 
 			//subsystems you can easily turn on or off as desired
@@ -32,7 +28,6 @@ export default class MainScene extends Phaser.Scene {
 			check_clothes: true, //checks if clothes are worn
 			check_uniforms: true, //checks if clothes are appropriate for working
 			check_food: true, //checks if ate, starvation, etc.
-			do_economy: true, //whether economy changes
 			do_weekend: true, //do we do random weekend events
 			do_doctor: true, //do we do the doctor event
 
@@ -43,16 +38,7 @@ export default class MainScene extends Phaser.Scene {
 		this.gamestate = {
 			new_game: false, //is this a new game or not (if so, will ask to select player, etc.)
 			week: 1, //what week is it
-			economy: 1, //multiplier that affects prices	
 			turn_flags: {}, //flags that are wiped clean each turn -- works for all players if multiplayer
-			stocks: [ //the different stocks and their base price info
-				{ "name": "T-BILLS", "base": 100, "min": 100, "max": 100 },
-				{ "name": "GOLD", "base": 413, "min": 206, "max": 1032 },
-				{ "name": "SILVER", "base": 14, "min": 7, "max": 35 },
-				{ "name": "PORK BELLIES", "base": 20, "min": 10, "max": 50 },
-				{ "name": "BLUE CHIP", "base": 49, "min": 24, "max": 122 },
-				{ "name": "PENNY STOCKS", "base": 7, "min": 3, "max": 17 }
-			],
 			current_player: 0, //current player 
 			players: [], //holds player info
 			version: this.settings.version, //version of game engine
@@ -70,7 +56,6 @@ export default class MainScene extends Phaser.Scene {
 		//load the objects kept in external data files
 		this.locations = require('./data/locations.js'); //load the object from locations.js
 		this.player = require('./data/player.js'); //this is loaded from player.js
-		this.weekends = require('./data/weekends.js'); //this is loaded from weekends.js
 
 		//this is where the size of the game window is stored -- putting it somewhere convenient
 		this.width = this.sys.game.scale.baseSize.width;
@@ -111,12 +96,6 @@ export default class MainScene extends Phaser.Scene {
 					this.locations[i].hitbox.setFillStyle(0xff0000, 0.1);
 				}
 			}
-		}
-
-		//create top menu
-		if (typeof this.menu == "undefined") {
-			var menu_config = require('./lib/top_menu.js')(this);
-			this.menu = new TopMenu(this, menu_config);
 		}
 
 		if (this.settings.auto_restore) {
@@ -231,30 +210,6 @@ export default class MainScene extends Phaser.Scene {
 	//ridiculous screen shown on winning the game
 	you_won = function () {
 		require('./lib/winner.js')(this)
-	}
-
-	//checks a player's inventory -- right now this is very simple,
-	//but in the future, if we want a more complicated inventory system,
-	//this will make it a lot easier to adapt.
-	inventory_has_item(item, player) {
-		var player = (typeof player == "undefined") ? this.player : player;
-		if (player.inventory.includes(item)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	//removes an item from the player inventory
-	inventory_remove_item(item, player) {
-		var player = (typeof player == "undefined") ? this.player : player;
-		player.inventory.splice(player.inventory.indexOf(item), 1);
-	}
-
-	//adds an item to the player inventory
-	inventory_add_item(item, player) {
-		var player = (typeof player == "undefined") ? this.player : player;
-		player.inventory.push(item);
 	}
 
 	//Phaser can run in two modes -- WebGL and Canvas.

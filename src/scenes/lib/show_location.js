@@ -10,9 +10,9 @@
  * 	scene.get_location(), but just use that object. 
  */
 module.exports = function (scene, id, take_time = true, location_object) {
-	console.log("show_location " + id);
-
 	//get location info
+	console.log("show_location: ", id);
+
 	if (typeof location_object == "undefined") {
 		var location = scene.get_location(id);
 	} else {
@@ -26,31 +26,9 @@ module.exports = function (scene, id, take_time = true, location_object) {
 	//scene.location_window is a Container that holds everything displayed about a location
 	scene.location_window = scene.add.container(68, 44).setDepth(10);
 
-	if (typeof location.speech == "undefined") {
-		var speech = false;
-	} else {
-		if (typeof location.speech == "function") {
-			var speech = location.speech(scene, location);
-		} else {
-			var speech = location.speech;
-		}
-	}
-	//create the location background image -- technically this is optional!
-	if (typeof location.image != "undefined") {
-		if (typeof location.image == "function") {
-			var location_image = location.image(scene, location);
-		} else {
-			var location_image = location.image;
-		}
-		console.log(location_image);
-		scene.location_window.add(new Phaser.GameObjects.Image(scene, 0, 0, location_image).setOrigin(0));
-	}
-
 	//get item-wide properties/set defaults
-
 	//spacing between items
 	var item_spacing = (typeof location.item_spacing == "undefined" ? 13 : location.item_spacing);
-
 
 	//offsets
 	var item_offset_x = (typeof location.item_offset_x == "undefined") ? 0 : location.item_offset_x;
@@ -94,7 +72,7 @@ module.exports = function (scene, id, take_time = true, location_object) {
 			} else {
 				show_item = item.display;
 			}
-			//if we show the tiem
+			//if we show the item
 			if (show_item) {
 				var item_hover = (typeof item.hover == "undefined") ? global_item_hover : item.hover;
 				//if an arbitrary object is passed, use that instead of creating one out of text
@@ -106,38 +84,17 @@ module.exports = function (scene, id, take_time = true, location_object) {
 					//otherwise create a text object
 					var item_font = (typeof item.font == "undefined") ? global_item_font : item.font;
 					var item_color = (typeof item.color == "undefined") ? global_item_color : item.color;
-					if (typeof item.price != "undefined") {
-						//if it has a price, display a line of dots and the adjusted price
-						//the price_cost thing is just to calculate the size of the full line
-						var use_economy = (typeof item.use_economy == "undefined") ? true : item.use_economy;
-						var price = Math.round(item.price * (use_economy ? scene.gamestate.economy : 1));
-						if (typeof item.text == "undefined") {
-							var item_text = item.name;
-						} else {
-							if (typeof item.text == "function") {
-								var item_text = item.text(scene, item, location);
-							} else {
-								var item_text = item.text;
-							}
-						}
-						var obj = new Phaser.GameObjects.BitmapText(scene, item_x, item_y, item_font, item_text)
-						var price_cost = new Phaser.GameObjects.BitmapText(scene, item_x, item_y, item_font, String(" $" + price)).setVisible(false);
-						var item_width = typeof (item.item_width == "undefined") ? global_item_width : item.item_width;
-						var dot_width = item_width - (obj.width + price_cost.width);
-						price_cost.destroy();
-						obj.setText(item.name + String(".").repeat(dot_width / 2) + " $" + price)
+					if (typeof item.text == "undefined") {
+						var item_text = item.name;
 					} else {
-						if (typeof item.text == "undefined") {
-							var item_text = item.name;
+						if (typeof item.text == "function") {
+							var item_text = item.text(scene, item, location);
 						} else {
-							if (typeof item.text == "function") {
-								var item_text = item.text(scene, item, location);
-							} else {
-								var item_text = item.text;
-							}
+							var item_text = item.text;
 						}
-						var obj = new Phaser.GameObjects.BitmapText(scene, item_x, item_y, item_font, item_text).setOrigin(0);
 					}
+					var obj = new Phaser.GameObjects.BitmapText(scene, item_x, item_y, item_font, item_text).setOrigin(0);
+
 					//formatting of text
 					var item_align = (typeof item.align == "undefined") ? global_item_align : item.align;
 					obj.setTintFill(item_color);
@@ -247,7 +204,6 @@ module.exports = function (scene, id, take_time = true, location_object) {
 		if (typeof location.done == "function") {
 			location.done(scene, location);
 		} else {
-			if (scene.player.time <= 0.5) scene.end_week(); //not enough time to go anywhere
 			if (typeof location.on_close == "function") {
 				location.on_close(scene);
 			}

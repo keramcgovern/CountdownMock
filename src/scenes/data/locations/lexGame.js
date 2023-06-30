@@ -16,13 +16,13 @@ module.exports =
 	"items": function (scene, location) {
 		var runningList = [...scene.gamestate.letterList];
 		while (runningList.length < scene.gamestate.numberOfLetters) {
-			runningList.push(" ");
+			runningList.push({ letter: " " });
 		}
 
 		var finList = [];
 		for (a in runningList) {
 			finList.push({
-				"name": runningList[a],
+				"name": runningList[a.letter],
 				"x": 20,
 				"y": 20,
 			});
@@ -30,20 +30,42 @@ module.exports =
 		return finList
 	},
 	"buttons": function (scene, location) {
+		var btnList = [];
+
+		var currVowels = 0;
+		var currCons = 0;
+
 		if (scene.gamestate.letterList.length < scene.gamestate.numberOfLetters) {
-			return [
-				{
-					"image": "btn-vowel",
-					"onclick": function (scene, location) {
-						scene.pullLetter(1);
-					}
-				}, {
-					"image": "btn-consonant",
-					"onclick": function (scene, location) {
-						scene.pullLetter(0);
-					}
-				}
-			]
+			for (i in scene.gamestate.letterList) {
+				var letter = scene.gamestate.letterList[i];
+				if (letter.type == "vowel") currVowels++;
+				else if (letter.type == "consonant") currCons++;
+			}
+
+			if (currVowels < scene.gamestate.numberOfLetters - 4) {
+				btnList.push(
+					{
+						"image": "btn-vowel",
+						"name": "vowel",
+						"onclick": function (scene, location) {
+							scene.pullLetter(1);
+						}
+					})
+			}
+
+			if (currCons < scene.gamestate.numberOfLetters - 3) {
+				btnList.push(
+					{
+						"image": "btn-consonant",
+						"name": "cons",
+						"onclick": function (scene, location) {
+							scene.pullLetter(0);
+						}
+					})
+			}
+
 		}
+
+		return btnList;
 	}
 }

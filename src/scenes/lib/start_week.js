@@ -25,9 +25,6 @@ module.exports = function (scene) {
 	scene.update_clock();
 
 	if (scene.player.relaxation > 10) scene.player.relaxation -= 10;
-	if (scene.settings.do_economy) {
-		scene.gamestate.economy += Phaser.Math.FloatBetween(-0.02, 0.02); //make the economy fluctuate at most 2% per week. this is not how it works in real game
-	}
 
 	//"Oh What a Weekend" event	
 	if (scene.settings.do_weekend) {
