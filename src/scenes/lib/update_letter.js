@@ -1,4 +1,4 @@
-module.exports = function (scene, val) {
+module.exports = function (scene, location, val) {
     var vowels = ['a', 'e', 'i', 'o', 'u'];
     var con = ['q', 'w', 'r', 't', 'y', 'p', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm'];
 
@@ -43,7 +43,7 @@ module.exports = function (scene, val) {
     }
 
     var l = randomAtoZ();
-    console.log(val);
+
     if (val) {
         while (!vowels.includes(l)) {
             l = randomAtoZ();
@@ -56,7 +56,6 @@ module.exports = function (scene, val) {
     else {
         while (!con.includes(l)) {
             l = randomAtoZ();
-            console.log("pulling.... ", l)
         }
         scene.gamestate.letterList.push({
             "letter": l.toUpperCase(),
@@ -64,5 +63,5 @@ module.exports = function (scene, val) {
         });
     }
 
-    scene.show_location(scene.player.location, false);
+    scene.show_location(location.id, false);
 }

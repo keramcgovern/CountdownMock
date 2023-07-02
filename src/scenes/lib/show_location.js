@@ -185,7 +185,12 @@ module.exports = function (scene, id, take_time = true, location_object) {
 						var scene = this.getData("scene");
 						var location = this.getData("location");
 						if (scene.player.modal) return false;
-						var can_buy = true;
+						if (typeof item.use == "function") item.use(scene, item, location);
+						if (typeof item.image != "undefined") {
+							if (typeof location.item_image_x != "undefined" && typeof location.item_image_y !== "undefined") {
+								scene.location_window.add(new Phaser.GameObjects.Image(scene, location.item_image_x, location.item_image_y, item.image).setOrigin(0, 0));
+							}
+						}
 					})
 				//add the hitbox to the location_window
 				scene.location_window.add(hitbox)
@@ -200,14 +205,14 @@ module.exports = function (scene, id, take_time = true, location_object) {
 	scene.location_window.buttons = {}; //create an array for buttons
 
 	//DONE button always exists, dismisses scene
-	scene.location_window.buttons.done = scene.bottom_button("btn-done", button_left, function (scene) {
+	scene.location_window.buttons.done = scene.bottom_button("btn-done", button_left, 109, function (scene) {
 		if (typeof location.done == "function") {
 			location.done(scene, location);
 		} else {
 			if (typeof location.on_close == "function") {
 				location.on_close(scene);
 			}
-			scene.location_window.destroy();
+			scene.show_location("menu");
 		}
 	}, location).setDepth(1000)
 	scene.location_window.add(scene.location_window.buttons.done);
@@ -224,7 +229,8 @@ module.exports = function (scene, id, take_time = true, location_object) {
 			var btn = buttons[b];
 			if (typeof btn.name == "undefined") btn.name = "button_" + b;
 			if (typeof btn.x == "undefined") btn.x = button_left;
-			var btn_custom = scene.bottom_button(btn.image, btn.x,
+			if (typeof btn.y == "undefined") btn.y = 109;
+			var btn_custom = scene.bottom_button(btn.image, btn.x, btn.y,
 				function (scene) {
 					if (typeof btn.onclick == "function") {
 						btn.onclick(scene, location);

@@ -1,1 +1,11 @@
-["board","btn-consonant","btn-done","btn-vowel"]
+[
+    "board",
+    "btn-consonant",
+    "btn-done",
+    "btn-letters",
+    "btn-new-player",
+    "btn-numbers",
+    "btn-vowel",
+    "btn-create",
+    "btn-enter-word"
+]

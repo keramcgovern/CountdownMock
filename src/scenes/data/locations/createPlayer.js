@@ -14,7 +14,7 @@ module.exports =
 
         btnList.push({
             "name": "new_player",
-            "image": "btn-vowel",
+            "image": "btn-create",
             "onclick": function (scene, location) {
                 scene.gamestate.players.push(player)
                 scene.show_location("menu");

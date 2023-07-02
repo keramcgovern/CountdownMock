@@ -22,7 +22,7 @@ module.exports =
 		var finList = [];
 		for (a in runningList) {
 			finList.push({
-				"name": runningList[a.letter],
+				"name": runningList[a].letter,
 				"x": 20,
 				"y": 20,
 			});
@@ -48,7 +48,7 @@ module.exports =
 						"image": "btn-vowel",
 						"name": "vowel",
 						"onclick": function (scene, location) {
-							scene.pullLetter(1);
+							scene.pullLetter(location, 1);
 						}
 					})
 			}
@@ -59,11 +59,21 @@ module.exports =
 						"image": "btn-consonant",
 						"name": "cons",
 						"onclick": function (scene, location) {
-							scene.pullLetter(0);
+							scene.pullLetter(location, 0);
 						}
 					})
 			}
+		}
 
+		if (scene.gamestate.letterList.length == scene.gamestate.numberOfLetters) {
+			btnList.push(
+				{
+					"image": "btn-enter-word",
+					"name": "enterWord",
+					"onclick": function (scene, location) {
+						scene.show_location("keyboard");
+					}
+				})
 		}
 
 		return btnList;

@@ -92,4 +92,5 @@ module.exports = [
 	require(path + 'lexGame.js'),
 	require(path + 'createPlayer.js'),
 	require(path + 'menu.js'),
+	require(path + 'keyboard.js'),
 ]

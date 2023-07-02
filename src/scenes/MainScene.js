@@ -167,8 +167,12 @@ export default class MainScene extends Phaser.Scene {
 		require('./lib/start_week.js')(this)
 	}
 
-	pullLetter(val) {
-		require('./lib/update_letter.js')(this, val);
+	pullLetter(location, val) {
+		require('./lib/update_letter.js')(this, location, val);
+	}
+
+	enterWord(letter) {
+		require('./lib/enter_word.js')(this, letter);
 	}
 
 	//code that tells the game the player has set a new destination
@@ -193,8 +197,8 @@ export default class MainScene extends Phaser.Scene {
 	}
 
 	//adds buttons to bottom of location_window
-	bottom_button(img, x, onclick, location, ignore_modal) {
-		return require('./lib/bottom_button.js')(this, img, x, onclick, location, ignore_modal)
+	bottom_button(img, x, y, onclick, location, ignore_modal) {
+		return require('./lib/bottom_button.js')(this, img, x, y, onclick, location, ignore_modal)
 	}
 
 	//a game menu -- uses same framework as the location system

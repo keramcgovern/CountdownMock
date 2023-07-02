@@ -83,7 +83,7 @@ module.exports = function (scene) {
 		scene.location_window.add(new Phaser.GameObjects.BitmapText(scene, 180 / 2, 97, "chunky", cost_text, undefined, 1).setOrigin(0.5, 0));
 		scene.player.money -= weekend_cost;
 		var button_left = 144;
-		var btn_done = scene.bottom_button("btn-done", button_left, function (scene) {
+		var btn_done = scene.bottom_button("btn-done", button_left, 109, function (scene) {
 			scene.hide_money();
 			if (scene.player.time <= 0) scene.end_week();
 			scene.location_window.destroy();
