@@ -71,6 +71,7 @@ module.exports =
 					"image": "btn-enter-word",
 					"name": "enterWord",
 					"onclick": function (scene, location) {
+						scene.player.enterWord = true;
 						scene.show_location("keyboard");
 					}
 				})

@@ -63,5 +63,5 @@ module.exports = function (scene, location, val) {
         });
     }
 
-    scene.show_location(location.id, false);
+    scene.show_location(location.id);
 }

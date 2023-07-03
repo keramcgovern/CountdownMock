@@ -116,7 +116,7 @@ export default class MainScene extends Phaser.Scene {
 
 		//if debug flag is set, launch the current location (don't penalize the player with the normal time penalty)
 		if (this.settings.open_start_location) {
-			this.show_location(this.player.location, false);
+			this.show_location(this.player.location);
 		}
 
 	}
@@ -145,8 +145,8 @@ export default class MainScene extends Phaser.Scene {
 	}
 
 	//show the screen for a given location
-	show_location(id, take_time = true, location_object) {
-		require('./lib/show_location.js')(this, id, take_time, location_object);
+	show_location(id, location_object) {
+		require('./lib/show_location.js')(this, id, location_object);
 	}
 
 	//shows text inside of an image texture
@@ -160,6 +160,17 @@ export default class MainScene extends Phaser.Scene {
 	//code that processes the end of the week
 	end_week() {
 		require('./lib/end_week.js')(this)
+	}
+
+	resetWordGame() {
+		this.gamestate.letterList = [];
+		this.player.currWord = "";
+		this.player.wordSubmission.word = "";
+		this.player.wordSubmission.valid = false;
+	}
+
+	checkSubmission(word) {
+		return require('./lib/checkSubmission.js')(this, word)
 	}
 
 	//code that starts a new week

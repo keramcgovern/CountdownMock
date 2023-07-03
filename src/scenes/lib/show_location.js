@@ -9,7 +9,7 @@
  * `location_object` is a full location object -- if used, it will not get the info using
  * 	scene.get_location(), but just use that object. 
  */
-module.exports = function (scene, id, take_time = true, location_object) {
+module.exports = function (scene, id, location_object) {
 	//get location info
 	console.log("show_location: ", id);
 

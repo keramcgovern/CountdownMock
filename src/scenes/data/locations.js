@@ -93,4 +93,5 @@ module.exports = [
 	require(path + 'createPlayer.js'),
 	require(path + 'menu.js'),
 	require(path + 'keyboard.js'),
+	require(path + 'winner.js'),
 ]
